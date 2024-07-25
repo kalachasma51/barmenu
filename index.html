@@ -10,14 +10,56 @@
             color: white;
             font-weight: bold;
         }
-    </style> 
+        .highlight {
+            background-color: yellow;
+        }
+        /* Container for input and button */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px; /* Optional: Limit width for better appearance */
+        }
+        /* Style the search input */
+        #searchInput {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            border-radius: 0; /* Remove border radius for a consistent look */
+            padding-right: 80px; /* Space for the button */
+            width: 100%;
+            border-radius: 5px;
+        }
+        /* Style the search button */
+        #searchButton {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 80px; /* Adjust the width of the button */
+            background-color: gray;
+            color: white;
+            border: none;
+            border-left: 2px solid white; /* Border to match input */
+            border-radius: 5px; /* Remove border radius for a consistent look */
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 
-
-    <div class="bg-image" style="background-image: url('bgnd.png'); background-size: cover; background-attachment: fixed; height: 1500vh; padding-top: 150px;">
-        <div class="container menu-text">
-           
+    <!-- Content -->
+    <div class="bg-image" style="background-image: url('bgnd.png'); background-size: cover; background-attachment: fixed; height: 1900vh; padding-top: 150px;">
+        <div class="container menu-text" id="content">
+            <!-- Search Bar -->
+            <div class="container mt-3">
+                <div class="form-group search-container">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                    <button id="searchButton">Search</button>
+                </div>
+            </div>
         <center>
             <h2>MOCKTAILS</h2>
         </center>
@@ -684,12 +726,30 @@
     <div><p></p></div>
 </ul>
 
-          
-        </div>
-    </div>
+</div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const content = document.getElementById('content');
+        const paragraphs = content.getElementsByTagName('p');
+
+        // Remove previous highlights
+        for (let para of paragraphs) {
+            para.innerHTML = para.innerHTML.replace(/<mark class="highlight">|<\/mark>/g, '');
+        }
+
+        if (searchTerm) {
+            for (let para of paragraphs) {
+                const regex = new RegExp(`(${searchTerm})`, 'gi');
+                para.innerHTML = para.innerHTML.replace(regex, '<mark class="highlight">$1</mark>');
+            }
+        }
+    });
+</script>
 </body>
 </html>
